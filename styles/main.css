@@ -3,22 +3,29 @@
     width: 288px;
 }
 
+.column{
+    width:32px;
+    float: left;
+}
+
 .number {
     border: 1px solid darkgrey;
-    float: left;
     width:30px;
     height:30px;
     text-align: center;
 }
 
 .number:nth-child(3n) {
+    border-bottom: 1px solid black;
+}
+.number:nth-child(1) {
+    border-top: 1px solid black;
+}
+.column:nth-child(3n) .number {
     border-right: 1px solid black;
 }
-.number:nth-child(n+19):nth-child(-n+27) {
-    border-bottom: 1px solid black;
-}
-.number:nth-child(n+46):nth-child(-n+54) {
-    border-bottom: 1px solid black;
+.column:nth-child(1) .number {
+    border-left: 1px solid black;
 }
 
 .number.locked{
@@ -28,6 +35,10 @@
 .number.selected{
     border: 1px solid #ffff00 !important;
     animation: highlightShadow 2s infinite;
+}
+
+.number.error {
+    background-color: rgba(255,0,0,0.5) ;
 }
 
 @keyframes highlightShadow {
