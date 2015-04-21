@@ -103,33 +103,31 @@ angular.module('sudokuApp')
 
         };
 
-
-        //Run validate() whenever $scope.index array changes
-        $scope.$watch('index',function(){
-            $scope.validate();
-        },true);
-
         $scope.keyControl = function(e){
             var key = e.keyCode;
             switch (true){
                 case (key==37 || key==65): //left
                     if($scope.index[1]>0){
                         $scope.index[1]--;
+                        $scope.validate();
                     }
                     break;
                 case (key==39 || key==68): //right
                     if($scope.index[1]<puzzleWidth-1){
                         $scope.index[1]++;
+                        $scope.validate();
                     }
                     break;
                 case (key==40 || key==83): //down
                     if($scope.index[0]<puzzleWidth-1){
                         $scope.index[0]++;
+                        $scope.validate();
                     }
                     break;
                 case (key==38 || key==87): //up
                     if($scope.index[0]>0){
                         $scope.index[0]--;
+                        $scope.validate();
                     }
                     break;
                 case ((key>96 && key<106) ||(key>48 && key<58) ): //number inputs
