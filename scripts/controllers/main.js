@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 
 angular.module('sudokuApp')
@@ -13,7 +13,8 @@ angular.module('sudokuApp')
 
         $scope.index = [0,0];
         $scope.currentPuzzle=[];
-        $scope.error = [null, null];
+        $scope.error = [];
+        $scope.wantErrorIndication=true;
         var userAnswer = [];
         var rightAnswer = [
             [ 4,3,6,8,2,9,7,1,5 ],
@@ -67,7 +68,7 @@ angular.module('sudokuApp')
 
         //Checks if the number shown on current selected number-box exists also in the corresponding row and column.
         $scope.validate = function(){
-            $scope.error = [null, null];
+            $scope.error = [null];
             var currentColumn=[];
             var currentRow=[];
             var currentNumber = $scope.currentPuzzle[$scope.index[1]][$scope.index[0]].number;
@@ -90,17 +91,27 @@ angular.module('sudokuApp')
                     }
                 }
 
-                //Check if currentNumber is contained in currentColumn and currentRow
-                //and fill error variable, column has priority
+                //Construct $scope.error array that holds the coordinates to all error number-boxes
                 var idxColumn = currentColumn.indexOf(currentNumber);
                 var idxRow = currentRow.indexOf(currentNumber);
                 if(idxColumn>=0){
-                    $scope.error=[idxColumn,$scope.index[1]];
-                } else if(idxRow>=0) {
-                    $scope.error=[$scope.index[0],idxRow];
+                    $scope.error.push([idxColumn,$scope.index[1]]);
+                }
+                if(idxRow>=0) {
+                    $scope.error.push([$scope.index[0],idxRow]);
                 }
             }
+        };
 
+        //Check if the coordinates of a box-number is included in $scope.error array
+        $scope.contains=function(coordinatesArray){
+            var counter=0;
+            $scope.error.forEach(function(element){
+                if(JSON.stringify(element) == JSON.stringify(coordinatesArray)){
+                    counter++;
+                }
+            });
+            return counter;
         };
 
         $scope.keyControl = function(e){
@@ -109,25 +120,33 @@ angular.module('sudokuApp')
                 case (key==37 || key==65): //left
                     if($scope.index[1]>0){
                         $scope.index[1]--;
-                        $scope.validate();
+                        if($scope.wantErrorIndication){
+                            $scope.validate();
+                        }
                     }
                     break;
                 case (key==39 || key==68): //right
                     if($scope.index[1]<puzzleWidth-1){
                         $scope.index[1]++;
-                        $scope.validate();
+                        if($scope.wantErrorIndication){
+                            $scope.validate();
+                        }
                     }
                     break;
                 case (key==40 || key==83): //down
                     if($scope.index[0]<puzzleWidth-1){
                         $scope.index[0]++;
-                        $scope.validate();
+                        if($scope.wantErrorIndication){
+                            $scope.validate();
+                        }
                     }
                     break;
                 case (key==38 || key==87): //up
                     if($scope.index[0]>0){
                         $scope.index[0]--;
-                        $scope.validate();
+                        if($scope.wantErrorIndication){
+                            $scope.validate();
+                        }
                     }
                     break;
                 case ((key>96 && key<106) ||(key>48 && key<58) ): //number inputs
@@ -135,7 +154,9 @@ angular.module('sudokuApp')
                         $scope.currentPuzzle[$scope.index[1]][$scope.index[0]].number = keyMap[key];
                     }
                     $scope.checkAnswer();
-                    $scope.validate();
+                    if($scope.wantErrorIndication){
+                        $scope.validate();
+                    }
                     break;
             }
         };
