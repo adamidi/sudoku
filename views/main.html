@@ -1,0 +1,20 @@
+<div>
+
+
+    <div class="block">
+        <div class="column" data-ng-repeat="row in currentPuzzle">
+            <div class="number" ng-class="{locked: col.locked, selected: index[0]==$index && index[1]==$parent.$index, error: contains([$index,$parent.$index])}" data-ng-repeat="col in row">
+
+                <div class="overlay" ng-class="{highlight: index[0]==$index || index[1]==$parent.$index}">
+                    {{col.number}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div>You solved it? {{result}}</div>
+<div><input type="checkbox" ng-model="settings.errorIndication" ng-click="toggleErrorIndication()"> Error Indication?</div>
+
+

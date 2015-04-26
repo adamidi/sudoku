@@ -1,0 +1,80 @@
+
+.block {
+    width: 288px;
+}
+
+.column{
+    width:32px;
+    float: left;
+}
+
+.number {
+    border: 1px solid darkgrey;
+    width:30px;
+    height:30px;
+    text-align: center;
+    position: relative;
+    -webkit-transition:background-color 0.5s;
+    transition:background-color 0.5s;
+}
+
+.number:nth-child(3n) {
+    border-bottom: 1px solid black;
+}
+.number:nth-child(1) {
+    border-top: 1px solid black;
+}
+.column:nth-child(3n) .number {
+    border-right: 1px solid black;
+}
+.column:nth-child(1) .number {
+    border-left: 1px solid black;
+}
+
+.number.locked{
+    background-color: rgba(255,0,0,0.2) ;
+}
+
+.number.selected{
+    border: 1px solid #ffff00 !important;
+    animation: highlightShadow 2s infinite;
+    -webkit-animation: highlightShadow 2s infinite;
+}
+
+.number.error {
+    background-color: rgba(255,0,0,0.4) ;
+
+}
+
+.highlight {
+    background-color: rgba(0,0,0,0.1) !important;
+}
+
+.overlay {
+    position:relative;
+    width:30px;
+    height:30px;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:9998;
+}
+
+@keyframes highlightShadow {
+    0%, 100% {
+        box-shadow: 0 0 0 #ffff00;
+    }
+    50% {
+        box-shadow: 0 0 3px 2px #ffff00;
+    }
+}
+
+@-webkit-keyframes highlightShadow {
+    0%, 100% {
+        box-shadow: 0 0 0 #ffff00;
+    }
+    50% {
+        box-shadow: 0 0 3px 2px #ffff00;
+    }
+}
