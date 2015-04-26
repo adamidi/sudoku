@@ -14,7 +14,7 @@ angular.module('sudokuApp')
         $scope.index = [0,0];
         $scope.currentPuzzle=[];
         $scope.error = [];
-        $scope.wantErrorIndication=true;
+        $scope.settings = {errorIndication : true};
         var userAnswer = [];
         var rightAnswer = [
             [ 4,3,6,8,2,9,7,1,5 ],
@@ -66,9 +66,17 @@ angular.module('sudokuApp')
             $scope.result = (JSON.stringify(userAnswer) == JSON.stringify(rightAnswer));
         };
 
+        $scope.toggleErrorIndication= function(){
+          if($scope.settings.errorIndication){
+              $scope.validate();
+          }  else {
+              $scope.error.length=0;
+          }
+        };
+
         //Checks if the number shown on current selected number-box exists also in the corresponding row and column.
         $scope.validate = function(){
-            $scope.error = [null];
+            $scope.error.length=0;
             var currentColumn=[];
             var currentRow=[];
             var currentNumber = $scope.currentPuzzle[$scope.index[1]][$scope.index[0]].number;
@@ -120,7 +128,7 @@ angular.module('sudokuApp')
                 case (key==37 || key==65): //left
                     if($scope.index[1]>0){
                         $scope.index[1]--;
-                        if($scope.wantErrorIndication){
+                        if($scope.settings.errorIndication){
                             $scope.validate();
                         }
                     }
@@ -128,7 +136,7 @@ angular.module('sudokuApp')
                 case (key==39 || key==68): //right
                     if($scope.index[1]<puzzleWidth-1){
                         $scope.index[1]++;
-                        if($scope.wantErrorIndication){
+                        if($scope.settings.errorIndication){
                             $scope.validate();
                         }
                     }
@@ -136,7 +144,7 @@ angular.module('sudokuApp')
                 case (key==40 || key==83): //down
                     if($scope.index[0]<puzzleWidth-1){
                         $scope.index[0]++;
-                        if($scope.wantErrorIndication){
+                        if($scope.settings.errorIndication){
                             $scope.validate();
                         }
                     }
@@ -144,7 +152,7 @@ angular.module('sudokuApp')
                 case (key==38 || key==87): //up
                     if($scope.index[0]>0){
                         $scope.index[0]--;
-                        if($scope.wantErrorIndication){
+                        if($scope.settings.errorIndication){
                             $scope.validate();
                         }
                     }
@@ -154,7 +162,7 @@ angular.module('sudokuApp')
                         $scope.currentPuzzle[$scope.index[1]][$scope.index[0]].number = keyMap[key];
                     }
                     $scope.checkAnswer();
-                    if($scope.wantErrorIndication){
+                    if($scope.settings.errorIndication){
                         $scope.validate();
                     }
                     break;
